@@ -1,0 +1,12 @@
+node_modules
+build
+.git 
+.vscode 
+.idea 
+env
+public
+src
+package*
+.eslintrc.js
+.env.local
+.eslintcache

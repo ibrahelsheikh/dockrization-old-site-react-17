@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  web:
+    container_name: azgroup-frontend-container
+    build: .
+    ports:
+      - "3000:3000"
+
+  webserver:
+    image: nginx:stable-alpine
+    container_name: nginx-container
+    volumes:
+     - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+     - "8080:80"
+
+    depends_on:
+      - web 
