@@ -1,5 +1,5 @@
 # install node
-FROM node:16-alpine
+FROM node:16-alpine AS builder
 
 # create app directory in container
 WORKDIR /app
@@ -16,8 +16,17 @@ COPY . .
 # build the app
 RUN npm run build
 
-# expose port 3000
-EXPOSE 3000
+# stage two 
+FROM nginx:stable-alpine
 
-# run the app from build folder
-CMD ["npx", "serve", "-s", "build", "-l", "3000"]
+WORKDIR /app
+
+# Copy the build folder from the first stage
+COPY --from=builder /app/build /usr/share/nginx/html
+
+
+# Expose port 80
+EXPOSE 80
+
+# serve the build 
+CMD ["nginx", "-g", "daemon off;"]
